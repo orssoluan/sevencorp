@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Mercado & Posicionamento | Seven Corp</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00AEEF',
+                        secondary: '#231F20',
+                        v4red: '#E50914',
+                        light: '#F8FAFC',
+                        dark: '#111827'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for specific effects -->
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1B3859;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00AEEF;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #008CBE;
+        }
+
+        /* Shine Effect for Buttons */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20%;
+            height: 200%;
+            opacity: 0;
+            transform: rotate(30deg);
+            background: rgba(255, 255, 255, 0.4);
+            background: linear-gradient(
+                to right, 
+                rgba(255, 255, 255, 0.13) 0%,
+                rgba(255, 255, 255, 0.13) 77%,
+                rgba(255, 255, 255, 0.5) 92%,
+                rgba(255, 255, 255, 0.0) 100%
+            );
+            transition: all 0.5s ease;
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { left: -60%; opacity: 0; }
+            10% { left: 150%; opacity: 1; }
+            100% { left: 150%; opacity: 0; }
+        }
+
+        /* Text Gradient */
+        .text-gradient {
+            background: linear-gradient(90deg, #00AEEF 0%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-dark {
+            background: linear-gradient(90deg, #00AEEF 0%, #231F20 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Slow Zoom for Hero Background */
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            animation: slowZoom 20s infinite alternate;
+        }
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+        .hero-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Dynamic Blobs */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: moveBlob 15s infinite alternate ease-in-out;
+        }
+        .blob-1 { background: #00AEEF; width: 400px; height: 400px; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; top: -100px; left: -100px; }
+        .blob-2 { background: #231F20; width: 300px; height: 300px; border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; bottom: -50px; right: -50px; animation-delay: -5s; }
+        @keyframes moveBlob {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            100% { transform: translate(50px, 50px) rotate(90deg) scale(1.1); }
+        }
+
+        /* Glassmorphism Header */
+        .glass-header {
+            background: rgba(35, 31, 32, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Lightbox overlay */
+        #lightbox {
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+        #lightbox.active {
+            display: flex;
+        }
+
+        /* Tooltip */
+        .has-tooltip:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .tooltip {
+            transition: all 0.2s ease-in-out;
+            transform: translateY(10px);
+        }
+
+        /* Line Clamp specific styles */
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+        
+        /* Gantt Chart / Timeline Base Styles */
+        .gantt-bar { transition: transform 0.3s ease; }
+        .gantt-bar:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+
+    </style>
+</head>
+<body class="bg-light text-secondary font-sans antialiased overflow-x-hidden">
+
+    <!-- CABEÇALHO FIXO -->
+    <header id="main-header" class="fixed w-full top-0 z-50 transition-all duration-300 bg-transparent py-4">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center relative">
+            <!-- Center Logo (Seven Corp) -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 cursor-pointer hover:scale-105 transition duration-300">
+                <img src="https://imgur.com/cUe3eEQ.png" alt="Seven Corp Logo" class="h-10 object-contain drop-shadow-md bg-white rounded p-1">
+            </div>
+            
+            <!-- Dummy element for flex spacing -->
+            <div></div>
+
+            <!-- Right Logo (V4) -->
+            <div class="cursor-pointer hover:scale-105 transition duration-300">
+                <img src="https://imgur.com/jmzaox0.png" alt="V4 Company Logo" class="h-10 object-contain drop-shadow-md brightness-0 invert">
+            </div>
+        </div>
+    </header>
+
+    <!-- SESSÃO 01: CAPA -->
+    <section id="s1" class="hero-wrapper h-screen w-full relative flex items-center justify-center bg-secondary">
+        <div class="absolute inset-0 hero-bg"></div>
+        <div class="absolute inset-0 bg-secondary/80 bg-gradient-to-b from-transparent to-secondary"></div>
+        
+        <div class="relative z-10 text-center px-6 reveal">
+            <p class="text-primary font-bold tracking-[0.2em] uppercase mb-4 text-sm md:text-base">Documento Executivo</p>
+            <h1 class="font-heading text-5xl md:text-7xl font-black text-white mb-8 leading-tight">
+                <span class="text-gradient">Pesquisa de Mercado</span><br>
+                & Posicionamento
+            </h1>
+            <a href="#s2" class="btn-shine inline-block bg-primary hover:bg-[#008CBE] text-white font-bold py-4 px-10 rounded-full transition duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,174,239,0.4)]">
+                Iniciar Apresentação <i class="fa-solid fa-arrow-down ml-2 animate-bounce"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- SESSÃO 02: SUMÁRIO -->
+    <section id="s2" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
+                <div>
+                    <h2 class="font-heading text-4xl font-black text-secondary">Sumário</h2>
+                    <div class="h-1 w-24 bg-primary mt-4"></div>
+                </div>
+                <div class="mt-4 md:mt-0 flex items-center gap-2 bg-gray-100 py-2 px-4 rounded-full text-sm font-semibold text-gray-600">
+                    <i class="fa-regular fa-clock text-primary"></i> Duração estimada: 1h30min
+                </div>
+            </div>
+
+            <ul class="space-y-4 text-lg md:text-xl text-secondary font-medium max-w-4xl mx-auto">
+                <li class="flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition duration-300 reveal">
+                    <i class="fa-solid fa-check text-primary mr-4 text-2xl"></i> Pesquisa de mercado (TAM/SAM/SOM + marketshare)
+                </li>
+                <li class="flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition duration-300 reveal" style="transition-delay: 100ms;">
+                    <i class="fa-solid fa-check text-primary mr-4 text-2xl"></i> SWOT estratégica
+                </li>
+                <li class="flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition duration-300 reveal" style="transition-delay: 200ms;">
+                    <i class="fa-solid fa-check text-primary mr-4 text-2xl"></i> Análise de concorrente
+                </li>
+                <li class="flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition duration-300 reveal">
+                    <i class="fa-solid fa-check text-primary mr-4 text-2xl"></i> Posicionamento estratégico + PUV + taglines
+                </li>
+                <li class="flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition duration-300 reveal" style="transition-delay: 100ms;">
+                    <i class="fa-solid fa-check text-primary mr-4 text-2xl"></i> Persona e ICP
+                </li>
+                <li class="flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition duration-300 reveal" style="transition-delay: 200ms;">
+                    <i class="fa-solid fa-check text-primary mr-4 text-2xl"></i> Arquitetura de presença digital
+                </li>
+                <li class="flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition duration-300 reveal">
+                    <i class="fa-solid fa-check text-primary mr-4 text-2xl"></i> Auditoria de comunicação no digital
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- SESSÃO 03: SEU MERCADO -->
+    <section id="s3" class="py-24 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-heading text-4xl font-black text-secondary mb-4 reveal">Seu Mercado</h2>
+            <div class="h-1 w-24 bg-primary mb-12 reveal"></div>
+
+            <div class="flex flex-col lg:flex-row gap-12 items-start mb-16">
+                <!-- Imagem Esquerda com Modal -->
+                <div class="w-full lg:w-5/12 reveal-left cursor-pointer group relative overflow-hidden rounded-2xl shadow-lg" onclick="openLightbox('https://imgur.com/fyGOvxG.png')">
+                    <img src="https://imgur.com/fyGOvxG.png" alt="Gráfico Mercado Duas Rodas" class="w-full h-auto object-cover transform group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-secondary/50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass-plus text-white text-4xl"></i>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-7/12 reveal-right text-lg leading-relaxed">
+                    <p class="mb-6 font-medium">O mercado de duas rodas não está encolhendo por igual. A moto bate recorde e puxa a demanda de capacete, que é justamente o lado onde a Seven tem um produto que o concorrente não tem. A bicicleta segura o volume, mas troca a mountain bike pela elétrica.</p>
+                    
+                    <h3 class="font-bold text-xl mb-4 text-primary"><i class="fa-solid fa-database mr-2"></i> Dados de base</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-primary">
+                            <p class="text-sm">Produção de motos (Polo Industrial Manaus, jan-set/2026)</p>
+                            <p class="font-black text-2xl text-secondary">1.645.034 <span class="text-sm font-normal text-green-500"><i class="fa-solid fa-arrow-trend-up"></i> alta de 9,9%</span></p>
+                            <p class="text-xs text-gray-400 mt-1">Fonte: Abraciclo</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-primary">
+                            <p class="text-sm">Projeção produção motos (2026)</p>
+                            <p class="font-black text-2xl text-secondary">2,1 milhões <span class="text-sm font-normal text-green-500"><i class="fa-solid fa-arrow-trend-up"></i> alta de 6%</span></p>
+                            <p class="text-xs text-gray-400 mt-1">Fonte: Abraciclo</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#231F20]">
+                            <p class="text-sm">Produção bicicletas (Manaus, jan-out/2026)</p>
+                            <p class="font-black text-2xl text-secondary">315.162 <span class="text-sm font-normal text-green-500"><i class="fa-solid fa-arrow-trend-up"></i> 5,6%</span></p>
+                            <p class="text-xs font-bold text-primary mt-1">Bicicleta elétrica: +94,7%</p>
+                            <p class="text-xs text-gray-400">Fonte: Abraciclo</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                            <p class="text-sm">Fatia de Mountain bike na produção</p>
+                            <p class="font-black text-2xl text-secondary">38,3% <span class="text-sm font-normal text-red-500"><i class="fa-solid fa-arrow-trend-down"></i> caiu de 51,2%</span></p>
+                            <p class="text-xs text-gray-400 mt-1">Fonte: Abraciclo</p>
+                        </div>
+                    </div>
+
+                    <h3 class="font-bold text-xl mb-4 text-primary"><i class="fa-solid fa-chart-line mr-2"></i> Leitura</h3>
+                    
+                    <!-- Gráfico Bicicletas -->
+                    <div class="mb-8 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-bold text-secondary mb-4 text-sm uppercase tracking-wider flex flex-col md:flex-row md:items-center justify-between">
+                            <span class="mb-2 md:mb-0"><i class="fa-solid fa-bicycle mr-2 text-primary"></i> Bicicletas — Polo Manaus</span>
+                            <span class="text-[10px] text-gray-400 font-normal">Vol. total (Abraciclo)</span>
+                        </h4>
+                        <div class="flex items-end justify-between h-40 gap-1 sm:gap-2 mt-8 border-b border-gray-200 pb-2">
+                            <!-- 2019 -->
+                            <div class="flex flex-col items-center flex-1 group h-full justify-end relative">
+                                <span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">919k</span>
+                                <div class="w-full bg-[#231F20]/20 rounded-t-sm group-hover:bg-primary transition-colors" style="height: 100%;"></div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium hidden sm:block">2019</span>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium sm:hidden origin-left rotate-45">19</span>
+                            </div>
+                            <!-- 2021 -->
+                            <div class="flex flex-col items-center flex-1 group h-full justify-end relative">
+                                <span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">749k</span>
+                                <div class="w-full bg-[#231F20]/20 rounded-t-sm group-hover:bg-primary transition-colors" style="height: 81%;"></div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium hidden sm:block">2021</span>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium sm:hidden origin-left rotate-45">21</span>
+                            </div>
+                            <!-- 2022 -->
+                            <div class="flex flex-col items-center flex-1 group h-full justify-end relative">
+                                <span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">599k</span>
+                                <div class="w-full bg-[#231F20]/20 rounded-t-sm group-hover:bg-primary transition-colors" style="height: 65%;"></div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium hidden sm:block">2022</span>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium sm:hidden origin-left rotate-45">22</span>
+                            </div>
+                            <!-- 2023 -->
+                            <div class="flex flex-col items-center flex-1 group h-full justify-end relative">
+                                <span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">456k</span>
+                                <div class="w-full bg-[#231F20]/20 rounded-t-sm group-hover:bg-primary transition-colors" style="height: 50%;"></div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium hidden sm:block">2023</span>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium sm:hidden origin-left rotate-45">23</span>
+                            </div>
+                            <!-- 2024 -->
+                            <div class="flex flex-col items-center flex-1 group h-full justify-end relative">
+                                <span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">351k</span>
+                                <div class="w-full bg-[#231F20]/20 rounded-t-sm group-hover:bg-primary transition-colors" style="height: 38%;"></div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium hidden sm:block">2024</span>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium sm:hidden origin-left rotate-45">24</span>
+                            </div>
+                            <!-- 2025 -->
+                            <div class="flex flex-col items-center flex-1 group h-full justify-end relative">
+                                <span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">335k</span>
+                                <div class="w-full bg-[#231F20]/20 rounded-t-sm group-hover:bg-primary transition-colors" style="height: 36%;"></div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium hidden sm:block">2025</span>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium sm:hidden origin-left rotate-45">25</span>
+                            </div>
+                            <!-- jan-set 2026 -->
+                            <div class="flex flex-col items-center flex-1 group h-full justify-end relative">
+                                <span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap -translate-x-2 sm:translate-x-0">272k (+0.7%)</span>
+                                <div class="w-full bg-[#231F20]/20 rounded-t-sm group-hover:bg-primary transition-colors" style="height: 30%;"></div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium hidden sm:block">set/26</span>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium sm:hidden origin-left rotate-45">set/26</span>
+                            </div>
+                            <!-- 2026 proj -->
+                            <div class="flex flex-col items-center flex-1 group h-full justify-end relative">
+                                <span class="absolute -top-6 text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity">~350k</span>
+                                <div class="w-full bg-primary/40 rounded-t-sm border border-primary border-dashed group-hover:bg-primary transition-colors" style="height: 38%;"></div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium hidden sm:block">26 proj</span>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium sm:hidden origin-left rotate-45">26 proj</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico Motos -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-bold text-secondary mb-2 text-sm uppercase tracking-wider flex flex-col md:flex-row md:items-center justify-between">
+                            <span class="mb-2 md:mb-0"><i class="fa-solid fa-motorcycle mr-2 text-primary"></i> Motos — Mercado do Capacete</span>
+                            <div class="flex gap-3 text-[10px] font-semibold text-gray-500">
+                                <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-primary rounded-full"></span> Produção</div>
+                                <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#231F20] rounded-full"></span> Emplacamento</div>
+                            </div>
+                        </h4>
+                        
+                        <div class="flex items-end justify-between h-40 gap-1 sm:gap-2 mt-8 border-b border-gray-200 pb-2">
+                            <!-- 2019 -->
+                            <div class="flex flex-col items-center flex-1 h-full justify-end group">
+                                <div class="flex items-end w-full gap-0.5 sm:gap-1 h-full justify-center relative">
+                                    <div class="absolute -top-8 text-[9px] font-bold bg-white shadow-sm border rounded px-1 hidden group-hover:flex gap-2 w-max z-10"><span class="text-primary">Prod: 1.1m</span><span class="text-secondary">Emp: 1.08m</span></div>
+                                    <div class="w-1/2 bg-primary/80 rounded-t-sm hover:bg-primary transition-colors" style="height: 47%;"></div>
+                                    <div class="w-1/2 bg-[#231F20]/80 rounded-t-sm hover:bg-[#231F20] transition-colors" style="height: 46%;"></div>
+                                </div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium">2019</span>
+                            </div>
+                            <!-- 2022 -->
+                            <div class="flex flex-col items-center flex-1 h-full justify-end group">
+                                <div class="flex items-end w-full gap-0.5 sm:gap-1 h-full justify-center relative">
+                                    <div class="absolute -top-8 text-[9px] font-bold bg-white shadow-sm border rounded px-1 hidden group-hover:flex gap-2 w-max z-10"><span class="text-primary">Prod: 1.4m</span><span class="text-secondary">Emp: 1.36m</span></div>
+                                    <div class="w-1/2 bg-primary/80 rounded-t-sm hover:bg-primary transition-colors" style="height: 60%;"></div>
+                                    <div class="w-1/2 bg-[#231F20]/80 rounded-t-sm hover:bg-[#231F20] transition-colors" style="height: 58%;"></div>
+                                </div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium">2022</span>
+                            </div>
+                            <!-- 2024 -->
+                            <div class="flex flex-col items-center flex-1 h-full justify-end group">
+                                <div class="flex items-end w-full gap-0.5 sm:gap-1 h-full justify-center relative">
+                                    <div class="absolute -top-8 text-[9px] font-bold bg-white shadow-sm border rounded px-1 hidden group-hover:flex gap-2 w-max z-10"><span class="text-primary">Prod: 1.74m</span><span class="text-secondary">Emp: 1.88m</span></div>
+                                    <div class="w-1/2 bg-primary/80 rounded-t-sm hover:bg-primary transition-colors" style="height: 74%;"></div>
+                                    <div class="w-1/2 bg-[#231F20]/80 rounded-t-sm hover:bg-[#231F20] transition-colors" style="height: 80%;"></div>
+                                </div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium">2024</span>
+                            </div>
+                            <!-- 2025 -->
+                            <div class="flex flex-col items-center flex-1 h-full justify-end group">
+                                <div class="flex items-end w-full gap-0.5 sm:gap-1 h-full justify-center relative">
+                                    <div class="absolute -top-8 text-[9px] font-bold bg-white shadow-sm border rounded px-1 hidden group-hover:flex gap-2 w-max z-10"><span class="text-primary">Prod: 1.98m</span><span class="text-secondary">Emp: 2.2m</span></div>
+                                    <div class="w-1/2 bg-primary/80 rounded-t-sm hover:bg-primary transition-colors" style="height: 84%;"></div>
+                                    <div class="w-1/2 bg-[#231F20]/80 rounded-t-sm hover:bg-[#231F20] transition-colors" style="height: 94%;"></div>
+                                </div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium">2025</span>
+                            </div>
+                            <!-- 2026 proj -->
+                            <div class="flex flex-col items-center flex-1 h-full justify-end group">
+                                <div class="flex items-end w-full gap-0.5 sm:gap-1 h-full justify-center relative">
+                                    <div class="absolute -top-8 text-[9px] font-bold bg-white shadow-sm border rounded px-1 hidden group-hover:flex gap-2 w-max right-0 sm:right-auto z-10"><span class="text-primary">Prod: 2.1m</span><span class="text-secondary">Emp: 2.35m</span></div>
+                                    <div class="w-1/2 bg-primary/40 rounded-t-sm border border-primary border-dashed hover:bg-primary transition-colors" style="height: 89%;"></div>
+                                    <div class="w-1/2 bg-[#231F20]/40 rounded-t-sm border border-[#231F20] border-dashed hover:bg-[#231F20] transition-colors" style="height: 100%;"></div>
+                                </div>
+                                <span class="text-[10px] text-gray-500 mt-2 font-medium text-center leading-tight">26 proj</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consequências -->
+            <h3 class="font-bold text-2xl mb-6 text-center text-secondary reveal">Consequência Estratégica</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 reveal border-t-4 border-primary">
+                    <div class="text-3xl text-gray-300 font-black mb-2">01</div>
+                    <p class="text-sm mb-4">O capacete é o motor de curto prazo. A produção de motos cresce, e a de capacetes acompanha a frota.</p>
+                    <div class="bg-light p-3 rounded text-sm font-semibold border-l-2 border-primary">
+                        <span class="text-primary block mb-1">Implicação:</span> a primeira frente comercial é o ABM nas fábricas de capacete, começando pelas contas que já compram da Seven.
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 reveal border-t-4 border-primary" style="transition-delay: 100ms;">
+                    <div class="text-3xl text-gray-300 font-black mb-2">02</div>
+                    <p class="text-sm mb-4">A bicicleta mudou de perfil. A mountain bike, que mais usa decal de quadro, perde espaço para a elétrica.</p>
+                    <div class="bg-light p-3 rounded text-sm font-semibold border-l-2 border-primary">
+                        <span class="text-primary block mb-1">Implicação:</span> defender a carteira de bicicleta com oferta para e-bike e com o decal de secagem rápida, sem verba de aquisição em mountain bike.
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 reveal border-t-4 border-primary" style="transition-delay: 200ms;">
+                    <div class="text-3xl text-gray-300 font-black mb-2">03</div>
+                    <p class="text-sm mb-4">As regras fiscais e regulatórias passam a favorecer o fornecedor formal. O novo selo do Inmetro com QR Code aperta o capacete pirata (Portaria Inmetro 314/2025), e a partir de 2027 quem compra de fornecedor informal perde o crédito de CBS (LC 214/2025).</p>
+                    <div class="bg-light p-3 rounded text-sm font-semibold border-l-2 border-primary">
+                        <span class="text-primary block mb-1">Implicação:</span> "fornecedor 100% formal, seu crédito de IBS/CBS garantido" entra como prova em toda proposta.
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:-translate-y-2 hover:shadow-xl transition-all duration-300 reveal border-t-4 border-primary" style="transition-delay: 300ms;">
+                    <div class="text-3xl text-gray-300 font-black mb-2">04</div>
+                    <p class="text-sm mb-4">Duas rodas tem teto: o espaço para crescer só nesse nicho é limitado (ver Sessão 04).</p>
+                    <div class="bg-light p-3 rounded text-sm font-semibold border-l-2 border-primary">
+                        <span class="text-primary block mb-1">Implicação:</span> abrir linha branca e extintores por lista fechada de contas (ABM) e conteúdo técnico, antes de qualquer anúncio amplo.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 04: TAMANHO DE MERCADO -->
+    <section id="s4" class="py-24 bg-secondary text-white relative overflow-hidden">
+        <!-- Blobs de fundo para quebrar padrão escuro -->
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <h2 class="font-heading text-4xl font-black mb-4 reveal">Tamanho de Mercado</h2>
+            <div class="h-1 w-24 bg-primary mb-12 reveal"></div>
+
+            <p class="text-xl mb-12 text-center max-w-3xl mx-auto font-light reveal">O seu mercado movimenta <strong class="text-primary font-bold">R$ 2,7 bi</strong> por ano. Desse total, <strong class="text-primary font-bold">R$ 68 mi</strong> por ano passa pelo canal em que você vende, e <strong class="text-primary font-bold">R$ 37,2 mi</strong> está ao seu alcance.</p>
+
+            <!-- Funil TAM SAM SOM -->
+            <div class="space-y-6 mb-16 max-w-4xl mx-auto">
+                <!-- TAM -->
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 hover:bg-white/20 transition-all reveal relative group has-tooltip">
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="text-center md:text-left mb-4 md:mb-0 md:w-1/3">
+                            <h3 class="text-3xl font-black text-white">TAM <i class="fa-solid fa-circle-info text-sm text-gray-400 cursor-help"></i></h3>
+                            <p class="text-sm text-gray-300">Mercado total</p>
+                        </div>
+                        <div class="text-center md:text-left md:w-2/3">
+                            <p class="text-4xl font-black text-primary mb-2">R$ 2,7 bilhões/ano</p>
+                            <p class="text-sm">Tudo o que se vende em rótulos, etiquetas e decalcomanias no Brasil.</p>
+                            <p class="text-xs text-gray-400 mt-2">Fonte: IBGE, PIA-Produto 2024</p>
+                        </div>
+                    </div>
+                    <!-- Tooltip -->
+                    <div class="tooltip invisible opacity-0 absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white text-secondary text-xs font-bold py-1 px-3 rounded shadow-lg z-50 whitespace-nowrap">
+                        Total Addressable Market
+                    </div>
+                </div>
+
+                <!-- SAM -->
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 hover:bg-white/20 transition-all reveal w-11/12 mx-auto relative group has-tooltip" style="transition-delay: 100ms;">
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="text-center md:text-left mb-4 md:mb-0 md:w-1/3">
+                            <h3 class="text-3xl font-black text-white">SAM <i class="fa-solid fa-circle-info text-sm text-gray-400 cursor-help"></i></h3>
+                            <p class="text-sm text-gray-300">Mercado que você atende</p>
+                        </div>
+                        <div class="text-center md:text-left md:w-2/3">
+                            <p class="text-4xl font-black text-primary mb-2">R$ 68 milhões/ano</p>
+                            <p class="text-sm">Filtro: nichos do ABM: capacete (R$ 8–21 mi), bicicleta (R$ 7 mi), linha branca (R$ 20–54 mi) e extintores (R$ 4–15 mi).</p>
+                        </div>
+                    </div>
+                    <div class="tooltip invisible opacity-0 absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white text-secondary text-xs font-bold py-1 px-3 rounded shadow-lg z-50 whitespace-nowrap">
+                        Serviceable Available Market
+                    </div>
+                </div>
+
+                <!-- SOM -->
+                <div class="bg-primary/20 backdrop-blur-md p-6 rounded-xl border border-primary/50 hover:bg-primary/30 transition-all reveal w-10/12 mx-auto relative group has-tooltip" style="transition-delay: 200ms;">
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="text-center md:text-left mb-4 md:mb-0 md:w-1/3">
+                            <h3 class="text-3xl font-black text-white">SOM <i class="fa-solid fa-circle-info text-sm text-gray-400 cursor-help"></i></h3>
+                            <p class="text-sm text-gray-300">Mercado para conquistar</p>
+                        </div>
+                        <div class="text-center md:text-left md:w-2/3">
+                            <p class="text-4xl font-black text-white mb-2">R$ 37,2 milhões/ano</p>
+                            <p class="text-sm">Filtro: o que é realista disputar nos próximos 12 meses, estimado em 54,7% do SAM. Nichos: capacete (R$ 14,5 mi) + bicicleta (R$ 7 mi) + linha branca em SP (R$ 15,7 mi).</p>
+                        </div>
+                    </div>
+                    <div class="tooltip invisible opacity-0 absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white text-secondary text-xs font-bold py-1 px-3 rounded shadow-lg z-50 whitespace-nowrap">
+                        Serviceable Obtainable Market
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dados de Receita / Meta -->
+            <div class="bg-white text-secondary p-8 rounded-2xl shadow-2xl reveal relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full z-0"></div>
+                <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center">
+                    <div>
+                        <p class="text-sm text-gray-500 font-bold uppercase tracking-wider mb-2">Faturamento Atual</p>
+                        <p class="text-4xl font-black text-secondary">R$ 12,8 mi <span class="text-base font-normal">/ano</span></p>
+                    </div>
+                    <div class="border-y md:border-y-0 md:border-x border-gray-200 py-6 md:py-0">
+                        <p class="text-sm text-gray-500 font-bold uppercase tracking-wider mb-2">Distância para Meta</p>
+                        <p class="text-4xl font-black text-primary">R$ 12,8 mi <span class="text-base font-normal">/ano</span></p>
+                        <p class="text-xs text-gray-500 mt-2 mt-4 px-4">Para atingir a meta de R$ 25,7 mi em 24 a 36 meses e ocupar os 50% de capacidade ociosa da fábrica. A meta representa 37,8% do SAM.</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-bold uppercase tracking-wider mb-2">Marketshare atual</p>
+                        <!-- Gráfico Circular CSS -->
+                        <div class="relative w-32 h-32 mx-auto rounded-full bg-gray-200 flex items-center justify-center shadow-inner" style="background: conic-gradient(#00AEEF 18.9%, #e5e7eb 0);">
+                            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center flex-col">
+                                <span class="text-2xl font-black text-secondary">18,9%</span>
+                                <span class="text-[10px] text-gray-400">do SAM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 05: SWOT ESTRATÉGICA -->
+    <section id="s5" class="py-24 bg-light bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjRjhGQUZDIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlPSIjRTlFOUU5IiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+')]">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-heading text-4xl font-black text-secondary mb-4 text-center reveal">SWOT Estratégica</h2>
+            <div class="h-1 w-24 bg-primary mx-auto mb-16 reveal"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- FO -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-8 border-green-500 hover:shadow-2xl transition duration-300 reveal group">
+                    <h3 class="text-2xl font-black text-secondary mb-6 flex items-center">
+                        <span class="bg-green-100 text-green-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition"><i class="fa-solid fa-arrow-up-right-dots"></i></span>
+                        FO <span class="text-sm font-normal text-gray-500 ml-2">(Forças &rarr; Oportunidades)</span>
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <span>Ativação de ABM nas fábricas de capacete com o decal sem película e lote piloto acompanhado por técnico na linha do cliente.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <span>Promoção do fornecimento 100% formal nas propostas, com o crédito de IBS/CBS a partir de 2027 como argumento de troca de fornecedor.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <span>Utilização da capacidade ociosa e da estrutura própria (birô e facaria) para entregar amostra e lote piloto rápidos às fábricas de linha branca.</span></li>
+                    </ul>
+                </div>
+
+                <!-- WO -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-8 border-yellow-500 hover:shadow-2xl transition duration-300 reveal group" style="transition-delay: 100ms;">
+                    <h3 class="text-2xl font-black text-secondary mb-6 flex items-center">
+                        <span class="bg-yellow-100 text-yellow-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition"><i class="fa-solid fa-lightbulb"></i></span>
+                        WO <span class="text-sm font-normal text-gray-500 ml-2">(Fraquezas &rarr; Oportunidades)</span>
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><i class="fa-solid fa-arrow-right text-yellow-500 mt-1 mr-3"></i> <span>Criação do site novo com seção Mercados (duas rodas, linha branca e extintores) e seção Serviços, com https, catálogo técnico e cases.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-arrow-right text-yellow-500 mt-1 mr-3"></i> <span>Implementação de CRM com pipeline e cadência de outbound (LinkedIn, e-mail e telefone) para as listas fechadas de contas.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-arrow-right text-yellow-500 mt-1 mr-3"></i> <span>Conteúdo técnico, dos termos de busca sem dono: clear coat adesivo, decalque à água e overlay de policarbonato.</span></li>
+                    </ul>
+                </div>
+
+                <!-- FA -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-8 border-primary hover:shadow-2xl transition duration-300 reveal group">
+                    <h3 class="text-2xl font-black text-secondary mb-6 flex items-center">
+                        <span class="bg-primary/20 text-primary w-12 h-12 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition"><i class="fa-solid fa-shield-halved"></i></span>
+                        FA <span class="text-sm font-normal text-gray-500 ml-2">(Forças &rarr; Ameaças)</span>
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><i class="fa-solid fa-shield text-primary mt-1 mr-3"></i> <span>Fortalecimento das contas atuais de capacete com contrato de fornecimento antes da abertura dos nichos novos.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-shield text-primary mt-1 mr-3"></i> <span>Promoção de prazo curto e desenvolvimento local frente ao decal importado e aos concorrentes sem fábrica no Brasil.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-shield text-primary mt-1 mr-3"></i> <span>Utilização do acompanhamento técnico gratuito na fábrica do cliente como etapa fixa do funil contra os concorrentes do polo de Iracemápolis.</span></li>
+                    </ul>
+                </div>
+
+                <!-- WA -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-8 border-red-500 hover:shadow-2xl transition duration-300 reveal group" style="transition-delay: 100ms;">
+                    <h3 class="text-2xl font-black text-secondary mb-6 flex items-center">
+                        <span class="bg-red-100 text-red-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                        WA <span class="text-sm font-normal text-gray-500 ml-2">(Fraquezas &rarr; Ameaças)</span>
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><i class="fa-solid fa-circle-exclamation text-red-500 mt-1 mr-3"></i> <span>Implementação de consulta de crédito e limite por cliente antes do primeiro pedido em contas novas.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-circle-exclamation text-red-500 mt-1 mr-3"></i> <span>Redução da concentração: nenhum cliente acima de 25% da receita em 24 meses.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-circle-exclamation text-red-500 mt-1 mr-3"></i> <span>Execução de no máximo 3 frentes de ABM em 2027 (duas rodas, linha branca e extintores)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 06: ANÁLISE DE CONCORRENTES -->
+    <section id="s6" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-heading text-4xl font-black text-secondary mb-4 reveal">Análise de Concorrentes</h2>
+            <div class="h-1 w-24 bg-primary mb-12 reveal"></div>
+
+            <h3 class="text-xl font-bold mb-6 text-secondary reveal"><i class="fa-solid fa-laptop mr-2 text-primary"></i> Presença Digital</h3>
+            <div class="overflow-x-auto mb-16 rounded-xl shadow-md border border-gray-200 reveal">
+                <table class="min-w-full divide-y divide-gray-200 bg-white text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left font-bold text-secondary uppercase tracking-wider">Concorrente</th>
+                            <th scope="col" class="px-6 py-4 text-left font-bold text-secondary uppercase tracking-wider">Site (Acessos/mês)</th>
+                            <th scope="col" class="px-6 py-4 text-left font-bold text-secondary uppercase tracking-wider">IG (Seguidores)</th>
+                            <th scope="col" class="px-6 py-4 text-left font-bold text-secondary uppercase tracking-wider">IN (Seguidores)</th>
+                            <th scope="col" class="px-6 py-4 text-left font-bold text-secondary uppercase tracking-wider">Google (Perfil)</th>
+                            <th scope="col" class="px-6 py-4 text-center font-bold text-secondary uppercase tracking-wider">Ads (Google|Meta|IN)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="bg-primary/5 hover:bg-primary/10 transition font-bold text-primary">
+                            <td class="px-6 py-4 whitespace-nowrap">Seven Corp</td>
+                            <td class="px-6 py-4 whitespace-nowrap">446</td>
+                            <td class="px-6 py-4 whitespace-nowrap">336</td>
+                            <td class="px-6 py-4 whitespace-nowrap">58</td>
+                            <td class="px-6 py-4 whitespace-nowrap">5,0 (4 avaliações)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">0 | 0 | 0</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-secondary">Cid Color</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Sem site no ar</td>
+                            <td class="px-6 py-4 whitespace-nowrap">67</td>
+                            <td class="px-6 py-4 whitespace-nowrap">21</td>
+                            <td class="px-6 py-4 whitespace-nowrap">4,8 (24 avaliações)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">0 | 0 | 0</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-secondary">Mega Print Adesivos</td>
+                            <td class="px-6 py-4 whitespace-nowrap">968</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Não tem</td>
+                            <td class="px-6 py-4 whitespace-nowrap">32</td>
+                            <td class="px-6 py-4 whitespace-nowrap">4,7 (6 avaliações)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">0 | 0 | 0</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-secondary">Seriart</td>
+                            <td class="px-6 py-4 whitespace-nowrap">601</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Não tem</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Não tem</td>
+                            <td class="px-6 py-4 whitespace-nowrap">4,7 (6 avaliações)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">0 | 0 | 0</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-secondary">GID</td>
+                            <td class="px-6 py-4 whitespace-nowrap">15.000</td>
+                            <td class="px-6 py-4 whitespace-nowrap">73.100</td>
+                            <td class="px-6 py-4 whitespace-nowrap">120</td>
+                            <td class="px-6 py-4 whitespace-nowrap">4,6 (252 avaliações)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">2 | 18 | 0</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-secondary">Afixgraf</td>
+                            <td class="px-6 py-4 whitespace-nowrap">22.000</td>
+                            <td class="px-6 py-4 whitespace-nowrap">3.600</td>
+                            <td class="px-6 py-4 whitespace-nowrap">797</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">-</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">61 | 2 | 0</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition bg-yellow-50">
+                            <td class="px-6 py-4 whitespace-nowrap font-bold text-yellow-700">Valver (referência)</td>
+                            <td class="px-6 py-4 whitespace-nowrap">572</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Não tem</td>
+                            <td class="px-6 py-4 whitespace-nowrap font-bold">2.714</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">Não se aplica</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">0 | 0 | 0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-xl font-bold mb-6 text-secondary reveal"><i class="fa-solid fa-scale-balanced mr-2 text-primary"></i> Comparação Estratégica</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
+                <!-- Cards for Comparação table for better responsive UX instead of a huge table -->
+                
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition">
+                    <h4 class="font-black text-lg mb-2 border-b pb-2">Cid Color</h4>
+                    <p class="text-sm mb-2"><strong>Nichos:</strong> Serigrafia industrial, rótulos</p>
+                    <p class="text-sm text-red-600 mb-2"><strong>Vulnerabilidade:</strong> Sem site no ar; sem conteúdo nem cases</p>
+                    <p class="text-sm italic text-gray-600 mb-2"><strong>PUV:</strong> "Referência no ramo de serigrafia industrial"</p>
+                    <p class="text-sm"><strong>Jornada:</strong> Indicação e Google Maps</p>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition">
+                    <h4 class="font-black text-lg mb-2 border-b pb-2">Mega Print Adesivos</h4>
+                    <p class="text-sm mb-2"><strong>Nichos:</strong> Duas rodas, adesivo promocional, sinalização</p>
+                    <p class="text-sm text-red-600 mb-2"><strong>Vulnerabilidade:</strong> Mistura adesivo promocional com industrial; sem prova técnica</p>
+                    <p class="text-sm italic text-gray-600 mb-2"><strong>PUV:</strong> Não comunica PUV clara</p>
+                    <p class="text-sm"><strong>Jornada:</strong> Google orgânico</p>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition">
+                    <h4 class="font-black text-lg mb-2 border-b pb-2">Seriart</h4>
+                    <p class="text-sm mb-2"><strong>Nichos:</strong> Capacete, adesivos industriais</p>
+                    <p class="text-sm text-red-600 mb-2"><strong>Vulnerabilidade:</strong> Sem redes sociais; links internos do site quebrados</p>
+                    <p class="text-sm italic text-gray-600 mb-2"><strong>PUV:</strong> "Serigrafia, decalques e adesivos com agilidade e qualidade"</p>
+                    <p class="text-sm"><strong>Jornada:</strong> Indicação local</p>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-5 hover:shadow-lg transition shadow-md relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase">Referência</div>
+                    <h4 class="font-black text-lg mb-2 border-b border-yellow-200 pb-2">Valver</h4>
+                    <p class="text-sm mb-2"><strong>Nichos:</strong> Automotivo, duas rodas, industrial</p>
+                    <p class="text-sm text-red-600 mb-2"><strong>Vulnerabilidade:</strong> Sem fábrica no Brasil, só escritório em Santo André; não anuncia</p>
+                    <p class="text-sm italic text-gray-600 mb-2"><strong>PUV:</strong> "You name it. We print it."</p>
+                    <p class="text-sm"><strong>Jornada:</strong> Comercial direto e LinkedIn</p>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition">
+                    <h4 class="font-black text-lg mb-2 border-b pb-2">GID</h4>
+                    <p class="text-sm mb-2"><strong>Nichos:</strong> Policarbonato, lacres, etiquetas industriais</p>
+                    <p class="text-sm text-red-600 mb-2"><strong>Vulnerabilidade:</strong> Generalista, sem foco em nicho; atende varejo e indústria juntos</p>
+                    <p class="text-sm italic text-gray-600 mb-2"><strong>PUV:</strong> "Há mais de 40 anos..." + ISO 9001</p>
+                    <p class="text-sm"><strong>Jornada:</strong> Google, Instagram e conteúdo</p>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 hover:shadow-lg transition">
+                    <h4 class="font-black text-lg mb-2 border-b pb-2">Afixgraf</h4>
+                    <p class="text-sm mb-2"><strong>Nichos:</strong> Etiquetas resinadas e patrimoniais</p>
+                    <p class="text-sm text-red-600 mb-2"><strong>Vulnerabilidade:</strong> Foco em etiqueta de patrimônio, não em decoração de produto em série</p>
+                    <p class="text-sm italic text-gray-600 mb-2"><strong>PUV:</strong> Não comunica PUV clara</p>
+                    <p class="text-sm"><strong>Jornada:</strong> Google Ads e loja on-line</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 07: POSICIONAMENTO ESTRATÉGICO -->
+    <section id="s7" class="py-32 bg-secondary text-white relative overflow-hidden">
+        <!-- Background elements -->
+        <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1618044733300-9472054094ee?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay"></div>
+        <div class="absolute -right-20 top-20 w-96 h-96 bg-primary/20 rounded-full filter blur-[100px]"></div>
+        
+        <div class="max-w-5xl mx-auto px-6 relative z-10">
+            <h2 class="font-heading text-4xl md:text-5xl font-black text-center mb-4 reveal">Posicionamento Estratégico</h2>
+            <div class="h-1 w-24 bg-primary mx-auto mb-16 reveal"></div>
+
+            <!-- Jobs To Be Done -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 md:p-12 border border-white/20 mb-12 reveal shadow-2xl relative">
+                <i class="fa-solid fa-quote-left absolute top-6 left-6 text-6xl text-primary/20"></i>
+                <h3 class="text-xl font-bold text-primary uppercase tracking-widest mb-6 border-b border-white/10 pb-4 inline-block relative z-10">Jobs To Be Done</h3>
+                
+                <div class="space-y-4 text-lg font-light relative z-10">
+                    <p><strong class="text-white font-semibold">Situação:</strong> <span class="italic">"Quando minha linha de capacetes para esperando o verniz curar em cima do decal e cada lote atrasa a expedição..."</span></p>
+                    <p><strong class="text-white font-semibold">Resultado desejado:</strong> <span class="italic text-primary">"...eu quero um decal que aceite o verniz em poucos minutos depois da aplicação, sem película para remover, e que mantenha o acabamento de pintura..."</span></p>
+                    <p><strong class="text-white font-semibold">Restrição:</strong> <span class="italic text-gray-400">"...mas sem ter que convencer um chão de fábrica que não confia em produto novo e sem arriscar parar a linha se o novo fornecedor errar."</span></p>
+                </div>
+            </div>
+
+            <!-- PUV Box -->
+            <div class="bg-gradient-to-r from-primary to-[#008CBE] rounded-2xl p-1 shadow-2xl transform hover:scale-[1.02] transition duration-500 reveal mb-12">
+                <div class="bg-secondary rounded-xl p-8 md:p-10 h-full flex flex-col justify-center items-center text-center">
+                    <div class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-6">PUV - Proposta Única de Valor</div>
+                    <p class="text-2xl md:text-3xl font-heading font-bold leading-tight">
+                        A Seven Corp mantém rodando a linha de quem decora o próprio produto em série: <span class="text-primary">adesivos, decais e clear coat feitos do desenvolvimento à embalagem dentro de casa</span>, com um técnico na sua fábrica até o piloto ser aprovado.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Taglines -->
+            <div class="reveal">
+                <h3 class="text-center font-bold text-gray-400 uppercase tracking-widest mb-8">Taglines</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-xl text-center hover:bg-primary/20 transition cursor-default">
+                        <i class="fa-solid fa-stopwatch text-3xl text-primary mb-4"></i>
+                        <p class="font-bold text-lg">O verniz não espera. Sua linha também não.</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-xl text-center hover:bg-primary/20 transition cursor-default">
+                        <i class="fa-solid fa-industry text-3xl text-primary mb-4"></i>
+                        <p class="font-bold text-lg">Decoração industrial feita, cortada e embalada aqui.</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-xl text-center hover:bg-primary/20 transition cursor-default">
+                        <i class="fa-solid fa-hard-hat text-3xl text-primary mb-4"></i>
+                        <p class="font-bold text-lg">Técnico na sua linha desde o primeiro lote.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 08: PERSONA E ICP -->
+    <section id="s8" class="py-24 bg-light">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-heading text-4xl font-black text-secondary mb-4 reveal">Persona e ICP</h2>
+            <div class="h-1 w-24 bg-primary mb-16 reveal"></div>
+
+            <div class="flex flex-col lg:flex-row gap-12 mb-20">
+                <!-- Persona Card -->
+                <div class="w-full lg:w-1/3 reveal-left">
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden sticky top-24">
+                        <div class="bg-secondary h-24 relative">
+                            <!-- Avatar Placeholder -->
+                            <div class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-white rounded-full p-1 shadow-lg">
+                                <div class="w-full h-full bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                                    <i class="fa-solid fa-user-tie text-4xl text-gray-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-16 pb-8 px-8 text-center">
+                            <h3 class="text-2xl font-black text-secondary mb-1">Renato</h3>
+                            <p class="text-primary font-bold text-sm italic mb-4">"o que não pode parar a linha"</p>
+                            
+                            <div class="flex justify-center gap-3 text-xs text-gray-500 mb-6 font-semibold">
+                                <span><i class="fa-solid fa-calendar mr-1"></i> 44 anos</span>
+                                <span><i class="fa-solid fa-ring mr-1"></i> Casado, 2 filhos</span>
+                            </div>
+
+                            <p class="text-sm font-medium text-gray-700 bg-gray-50 p-3 rounded-lg mb-6 border border-gray-100">
+                                Engenheiro de processo e qualidade numa fábrica de capacetes no interior de São Paulo.
+                            </p>
+
+                            <div class="text-left text-sm space-y-4 mb-6">
+                                <p id="persona-text" class="line-clamp-3 text-gray-600 transition-all duration-300">
+                                    É ele quem especifica o decal, aprova a amostra e pode vetar um fornecedor novo. A linha vive esperando o verniz curar, e cada bolha ou descolamento vira retrabalho. Ele conhece fornecedor por indicação de colega ou em feira, mas antes de pedir amostra confere o site e o Google da empresa. Pesa para ele: prazo, resistência ao verniz e ao calor, cor estável e teste na própria linha. Tem medo de aprovar um fornecedor novo e ser cobrado por uma parada de linha.
+                                </p>
+                                <button onclick="toggleLineClamp('persona-text', this)" class="text-primary font-bold text-xs hover:underline uppercase tracking-wider">Ver mais <i class="fa-solid fa-chevron-down"></i></button>
+                            </div>
+
+                            <div class="bg-red-50 text-red-800 p-4 rounded-xl text-left relative text-sm italic border border-red-100 mb-6">
+                                <i class="fa-solid fa-quote-left absolute opacity-20 text-3xl -top-2 -left-2 text-red-800"></i>
+                                "Se alguém viesse aqui, rodasse um lote piloto na minha linha e me mostrasse quanto tempo eu ganho por peça, eu aprovava."
+                            </div>
+                            
+                            <div class="text-left text-sm">
+                                <strong class="text-secondary block mb-2">O que ajuda o Renato:</strong>
+                                <ul class="space-y-1 text-gray-600 list-disc list-inside">
+                                    <li>Lote piloto com técnico da Seven na linha</li>
+                                    <li>Ficha técnica com o ganho de tempo por peça</li>
+                                    <li>Um case publicado</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ICP Table -->
+                <div class="w-full lg:w-2/3 reveal-right">
+                    <h3 class="text-2xl font-bold mb-6 text-secondary flex items-center">
+                        <i class="fa-solid fa-bullseye text-primary mr-3 text-3xl"></i> Perfil de Cliente Ideal (ICP)
+                    </h3>
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 text-sm">
+                                <thead class="bg-secondary text-white">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4 text-left font-bold uppercase tracking-wider">Critério</th>
+                                        <th scope="col" class="px-6 py-4 text-left font-bold uppercase tracking-wider bg-primary/20 text-primary">Cliente ideal</th>
+                                        <th scope="col" class="px-6 py-4 text-left font-bold uppercase tracking-wider">Cliente secundário</th>
+                                        <th scope="col" class="px-6 py-4 text-left font-bold uppercase tracking-wider text-red-400">Cliente não ideal</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-100">
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-800 bg-gray-50">Tipo de cliente</td>
+                                        <td class="px-6 py-4 font-medium text-primary">Fábrica de capacete ou de linha branca que decora o próprio produto</td>
+                                        <td class="px-6 py-4 text-gray-600">Fábrica de bicicleta (e-bike) ou de extintor</td>
+                                        <td class="px-6 py-4 text-gray-500">Varejo, gráfica, revenda, consumidor final</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-800 bg-gray-50">Tamanho</td>
+                                        <td class="px-6 py-4 font-medium text-primary">Médio ou grande, produção diária em milhares de peças</td>
+                                        <td class="px-6 py-4 text-gray-600">Médio</td>
+                                        <td class="px-6 py-4 text-gray-500">Pequeno, produção pontual</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 font-bold text-gray-800 bg-gray-50">Necessidade principal</td>
+                                        <td class="px-6 py-4 font-medium text-primary">Decoração resistente (verniz, calor) que não pare a linha</td>
+                                        <td class="px-6 py-4 text-gray-600">Identificação e decoração com prazo e norma</td>
+                                        <td class="px-6 py-4 text-gray-500">Só preço</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-800 bg-gray-50">Volume por pedido</td>
+                                        <td class="px-6 py-4 font-medium text-primary">5.000 a 100.000 peças</td>
+                                        <td class="px-6 py-4 text-gray-600">1.000 a 5.000 peças</td>
+                                        <td class="px-6 py-4 text-gray-500">Menos de 1.000 peças</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-800 bg-gray-50">Frequência</td>
+                                        <td class="px-6 py-4 font-medium text-primary">Mensal ou por lote de produção</td>
+                                        <td class="px-6 py-4 text-gray-600">Por lote</td>
+                                        <td class="px-6 py-4 text-gray-500">Pontual</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 font-bold text-gray-800 bg-gray-50">Exigência fiscal</td>
+                                        <td class="px-6 py-4 font-medium text-primary">Lucro real ou presumido, quer crédito de IBS/CBS</td>
+                                        <td class="px-6 py-4 text-gray-600">Formal</td>
+                                        <td class="px-6 py-4 text-gray-500">Informal</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-800 bg-gray-50 border-b-0">Risco de crédito</td>
+                                        <td class="px-6 py-4 font-medium text-primary">Bom pagador, consultado antes</td>
+                                        <td class="px-6 py-4 text-gray-600">Consultar antes do primeiro pedido</td>
+                                        <td class="px-6 py-4 text-gray-500">Histórico de atraso</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 09: ARQUITETURA DE PRESENÇA DIGITAL -->
+    <section id="s9" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-heading text-4xl font-black text-secondary mb-4 text-center reveal">Arquitetura de Presença Digital</h2>
+            <div class="h-1 w-24 bg-primary mx-auto mb-16 reveal"></div>
+
+            <!-- Opções 1 e 2 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 reveal">
+                <!-- Opção 01 -->
+                <div class="border-2 border-gray-200 rounded-2xl p-8 hover:border-gray-400 transition flex flex-col h-full">
+                    <h3 class="text-2xl font-black text-secondary mb-2">Opção 01: Pure Play</h3>
+                    <p class="text-sm text-gray-500 mb-6 font-semibold"><i class="fa-solid fa-link mr-1"></i> Modelo de referência: Mega Print Adesivos</p>
+                    <div class="flex-grow space-y-4 text-sm text-gray-700">
+                        <p><strong class="text-secondary block">Como funciona:</strong> uma marca, um único setor. Toda a comunicação fala com quem decora bike, moto e capacete.</p>
+                        <p><strong class="text-secondary block">A diferença para a Seven:</strong> reforça o que a Seven já é em duas rodas, mas não abre a porta da linha branca e dos extintores..</p>
+                    </div>
+                </div>
+
+                <!-- Opção 02 -->
+                <div class="border-2 border-primary rounded-2xl p-8 shadow-xl relative flex flex-col h-full transform lg:-translate-y-4 bg-gradient-to-br from-white to-light">
+                    <div class="absolute -top-4 right-8 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg animate-pulse">
+                        <i class="fa-solid fa-star mr-1"></i> Recomendado pela V4
+                    </div>
+                    <h3 class="text-2xl font-black text-primary mb-2">Opção 02: Verticalização</h3>
+                    <p class="text-sm text-gray-500 mb-6 font-semibold"><i class="fa-solid fa-link mr-1"></i> Modelo de referência: Valver</p>
+                    <div class="flex-grow space-y-4 text-sm text-gray-700">
+                        <p><strong class="text-secondary block">Como funciona:</strong> o mesmo parque e a mesma tecnologia, com proposta de valor e página próprias para cada setor (duas rodas, linha branca, extintores). No marketing, isso é executado via ABM.</p>
+                        <p><strong class="text-secondary block">Por que funciona para a Seven:</strong> o comprador de capacete e o de linha branca sentem que a solução foi feita para eles. O site ganha uma seção Mercados (uma página por nicho) e uma seção Serviços (adesivos, decal, clear coat, facas e desenvolvimento) que atende qualquer mercado.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Posicionamento ABM Table -->
+            <div class="mb-16 reveal">
+                <h3 class="text-xl font-bold mb-6 text-secondary"><i class="fa-solid fa-ranking-star mr-2 text-primary"></i> Posicionamento ABM</h3>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 text-sm">
+                            <thead class="bg-secondary text-white">
+                                <tr>
+                                    <th class="px-6 py-4 text-left font-bold">Empresa</th>
+                                    <th class="px-6 py-4 text-center font-bold">Prontidão ABM</th>
+                                    <th class="px-6 py-4 text-left font-bold">Análise rápida</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr><td class="px-6 py-3 font-bold text-yellow-600">Valver (referência)</td><td class="px-6 py-3 text-center text-yellow-400"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></td><td class="px-6 py-3 text-gray-600">Mais próxima: site organizado por setor, mas sem fábrica no Brasil.</td></tr>
+                                <tr><td class="px-6 py-3 font-medium">GID</td><td class="px-6 py-3 text-center text-yellow-400"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i></td><td class="px-6 py-3 text-gray-600">Muito conteúdo, mas generalista e sem página por nicho</td></tr>
+                                <tr><td class="px-6 py-3 font-medium">Mega Print Adesivos</td><td class="px-6 py-3 text-center text-yellow-400"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i></td><td class="px-6 py-3 text-gray-600">Páginas por produto, sem prova técnica.</td></tr>
+                                <tr><td class="px-6 py-3 font-medium">Afixgraf</td><td class="px-6 py-3 text-center text-yellow-400"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i></td><td class="px-6 py-3 text-gray-600">Anuncia, mas etiqueta de prateleira, não decoração em série.</td></tr>
+                                <tr><td class="px-6 py-3 font-medium">Seriart</td><td class="px-6 py-3 text-center text-yellow-400"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i><i class="fa-regular fa-star text-gray-300"></i></td><td class="px-6 py-3 text-gray-600">Sem redes; comunicação genérica.</td></tr>
+                                <tr><td class="px-6 py-3 font-medium">Cid Color</td><td class="px-6 py-3 text-center text-yellow-400"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i><i class="fa-regular fa-star text-gray-300"></i></td><td class="px-6 py-3 text-gray-600">Sem site no ar.</td></tr>
+                                <tr class="bg-primary/5"><td class="px-6 py-3 font-black text-primary">Seven Corp</td><td class="px-6 py-3 text-center text-yellow-400"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i><i class="fa-regular fa-star text-gray-300"></i></td><td class="px-6 py-3 font-semibold">Potencial não explorado. Falta segmentação.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-4 bg-gray-50 border border-gray-200 p-4 rounded-lg text-sm italic text-center">
+                    <strong class="text-secondary not-italic">Conclusão ABM:</strong> nenhum concorrente fala com a indústria por nicho, e ninguém faz inbound para decoração industrial. Pode ser uma grande oportunidade ou uma tentativa frustrada. Por isso, a Seven começa pelo outbound, com comunicação ABM, e testa o inbound depois.
+                </div>
+                <div class="mt-8 text-center text-2xl font-black text-primary animate-bounce">
+                    Agora é o momento da decisão! Opção 01 ou 02?
+                </div>
+            </div>
+
+            <!-- Gantt Chart Style Fases -->
+            <div class="mb-16 reveal relative">
+                <h3 class="text-xl font-bold mb-8 text-secondary"><i class="fa-solid fa-list-check mr-2 text-primary"></i> Plano de Ação</h3>
+                
+                <div class="space-y-6">
+                    <!-- Fase 1 -->
+                    <div class="bg-white p-6 rounded-xl border-l-8 border-primary shadow-sm hover:shadow-md transition gantt-bar">
+                        <div class="flex justify-between items-start flex-wrap mb-4">
+                            <h4 class="font-black text-xl text-secondary">Fase 1 – Outbound ABM em duas rodas</h4>
+                            <span class="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Foco: 15 a 20 contas primeiro</span>
+                        </div>
+                        <p class="text-sm mb-2"><strong class="text-secondary">Objetivo:</strong> ampliar a participação nas contas atuais e abrir as fábricas de capacete que ainda não compram.</p>
+                        <p class="text-sm mb-4"><strong class="text-secondary">Tática:</strong> lista fechada de contas + visita técnica com lote piloto.</p>
+                        <div class="bg-light p-4 rounded-lg text-sm mb-4 border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><strong>Contas atuais:</strong> Pro Tork (PR), Starplast (SP/BA), Cairu (RO).</div>
+                            <div><strong>Contas novas:</strong> EBF (Indaiatuba-SP), ASX (Limeira-SP), Taurus (Mandirituba-PR), Mixs (Mairiporã-SP), FW3 (Diadema-SP); bicicletas: Nathor (SC) e fábricas do Polo de Manaus.</div>
+                        </div>
+                        <div>
+                            <strong class="text-xs text-gray-500 uppercase tracking-wider mb-2 block">Cadência curta:</strong>
+                            <ol class="flex flex-col md:flex-row gap-2 text-xs">
+                                <li class="bg-white border border-gray-200 px-3 py-2 rounded flex-1"><span class="text-primary font-bold mr-1">1.</span> LinkedIn do decisor (engenharia ou compras)</li>
+                                <li class="bg-white border border-gray-200 px-3 py-2 rounded flex-1"><span class="text-primary font-bold mr-1">2.</span> E-mail com o vídeo do verniz em 30 min</li>
+                                <li class="bg-white border border-gray-200 px-3 py-2 rounded flex-1"><span class="text-primary font-bold mr-1">3.</span> Ligação para agendar a visita</li>
+                                <li class="bg-white border border-gray-200 px-3 py-2 rounded flex-1"><span class="text-primary font-bold mr-1">4.</span> Visita técnica e proposta de lote piloto</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Fase 2 -->
+                    <div class="bg-white p-6 rounded-xl border-l-8 border-[#008CBE] shadow-sm hover:shadow-md transition gantt-bar md:ml-12">
+                        <div class="flex justify-between items-start flex-wrap mb-4">
+                            <h4 class="font-black text-xl text-secondary">Fase 2 – Linha branca</h4>
+                            <span class="bg-[#008CBE]/10 text-[#008CBE] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Foco: 15 a 25 contas</span>
+                        </div>
+                        <p class="text-sm mb-2"><strong class="text-secondary">Objetivo:</strong> conquistar a primeira homologação.</p>
+                        <p class="text-sm mb-4"><strong class="text-secondary">Tática:</strong> abordagem pela engenharia de produto, com o case de painel de tanquinho.</p>
+                        <div class="bg-light p-4 rounded-lg text-sm mb-4 border border-gray-100">
+                            <strong>Alvos:</strong> SP primeiro (Whirlpool Rio Claro, a ~45 km, e o eixo Rio Claro–São Carlos–Limeira), depois SC (Maravilha, Pinhalzinho) e PR (Curitiba, Pato Branco).
+                        </div>
+                        <p class="text-sm"><strong class="text-secondary">Cadência curta:</strong> a mesma da Fase 1.</p>
+                    </div>
+
+                    <!-- Fase 3 -->
+                    <div class="bg-white p-6 rounded-xl border-l-8 border-gray-800 shadow-sm hover:shadow-md transition gantt-bar md:ml-24">
+                        <div class="flex justify-between items-start flex-wrap mb-4">
+                            <h4 class="font-black text-xl text-secondary">Fase 3 – Extintores + teste de inbound</h4>
+                            <span class="bg-gray-100 text-gray-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Foco: teste inbound (3 meses)</span>
+                        </div>
+                        <p class="text-sm mb-2"><strong class="text-secondary">Objetivo:</strong> abrir o nicho 3 e medir se o inbound industrial funciona.</p>
+                        <p class="text-sm mb-4"><strong class="text-secondary">Tática:</strong> cadência nacional por LinkedIn e telefone para os fabricantes com registro no Inmetro; landing page por nicho e Google nos termos técnicos sem concorrência.</p>
+                        <div class="bg-light p-4 rounded-lg text-sm border border-gray-100">
+                            <strong>Alvos:</strong> 35 empresas com registro no Inmetro, concentradas em SP (11), PR (6) e RJ (6).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de Priorização UF -->
+            <div class="reveal">
+                <h3 class="text-xl font-bold mb-6 text-secondary"><i class="fa-solid fa-map-location-dot mr-2 text-primary"></i> Priorização por UF (quantidade de empresas)</h3>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 text-sm text-center">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 font-bold text-left">UF</th>
+                                    <th class="px-4 py-3 font-bold">Capacete (nacionais)</th>
+                                    <th class="px-4 py-3 font-bold">Linha branca</th>
+                                    <th class="px-4 py-3 font-bold">Bicicleta</th>
+                                    <th class="px-4 py-3 font-bold">Extintores (registradas)</th>
+                                    <th class="px-4 py-3 font-bold text-left bg-primary/10 text-primary">Prioridade</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">SP</td><td class="px-4 py-2">5</td><td class="px-4 py-2">58</td><td class="px-4 py-2">145</td><td class="px-4 py-2">11</td><td class="px-4 py-2 text-left font-black text-primary bg-primary/5">1</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">PR</td><td class="px-4 py-2">2</td><td class="px-4 py-2">14</td><td class="px-4 py-2">238</td><td class="px-4 py-2">6</td><td class="px-4 py-2 text-left font-bold bg-primary/5">2</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">SC</td><td class="px-4 py-2">0</td><td class="px-4 py-2">21</td><td class="px-4 py-2">48</td><td class="px-4 py-2">1</td><td class="px-4 py-2 text-left font-semibold bg-primary/5">3</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">RJ</td><td class="px-4 py-2">0</td><td class="px-4 py-2">3</td><td class="px-4 py-2">124</td><td class="px-4 py-2">6</td><td class="px-4 py-2 text-left text-gray-500 text-xs">Baixa (extintores na Fase 3)</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">MG</td><td class="px-4 py-2">0</td><td class="px-4 py-2">13</td><td class="px-4 py-2">20</td><td class="px-4 py-2">4</td><td class="px-4 py-2 text-left text-gray-500 text-xs">Baixa</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">RS</td><td class="px-4 py-2">0</td><td class="px-4 py-2">14</td><td class="px-4 py-2">38</td><td class="px-4 py-2">3</td><td class="px-4 py-2 text-left text-gray-500 text-xs">Baixa</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">AM</td><td class="px-4 py-2">0</td><td class="px-4 py-2">0</td><td class="px-4 py-2">8</td><td class="px-4 py-2">1</td><td class="px-4 py-2 text-left text-gray-500 text-xs">Bicicleta premium e e-bike</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">RO</td><td class="px-4 py-2">1</td><td class="px-4 py-2">0</td><td class="px-4 py-2">1</td><td class="px-4 py-2">0</td><td class="px-4 py-2 text-left text-gray-500 text-xs">Conta atual (Cairu)</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">BA</td><td class="px-4 py-2">1</td><td class="px-4 py-2">2</td><td class="px-4 py-2">21</td><td class="px-4 py-2">1</td><td class="px-4 py-2 text-left text-gray-500 text-xs">Conta atual (Starplast)</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-bold text-left">PE e DF</td><td class="px-4 py-2">0</td><td class="px-4 py-2">—</td><td class="px-4 py-2">14</td><td class="px-4 py-2">2</td><td class="px-4 py-2 text-left text-gray-500 text-xs">Baixa</td></tr>
+                                <tr class="bg-secondary text-white font-bold"><td class="px-4 py-3 text-left">Brasil</td><td class="px-4 py-3">~16</td><td class="px-4 py-3">137</td><td class="px-4 py-3">699</td><td class="px-4 py-3">35</td><td class="px-4 py-3 text-left">—</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 mt-2 text-right">Fonte: Receita Federal (base CNPJ), nov/2026; Inmetro (registros até dez/2025)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 10: O QUE ACONTECEU ESSA SEMANA -->
+    <section id="s10" class="py-24 bg-light border-t border-gray-200">
+        <div class="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Aconteceu -->
+            <div class="reveal-left">
+                <h2 class="font-heading text-3xl font-black text-secondary mb-6"><i class="fa-solid fa-calendar-check text-green-500 mr-2"></i> O que aconteceu essa semana</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                        <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> 
+                        <span class="text-secondary text-sm font-medium">Entendemos de forma mais aprofundada o seu mercado, concorrentes e o seu público.</span>
+                    </li>
+                    <li class="flex items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                        <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> 
+                        <span class="text-secondary text-sm font-medium">Comparamos a sua solução com a de seus concorrentes, conseguindo uma visão clara de como cada player está no mercado.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Próximos Passos -->
+            <div class="reveal-right">
+                <h2 class="font-heading text-3xl font-black text-secondary mb-6"><i class="fa-solid fa-forward-step text-primary mr-2"></i> Próximos passos</h2>
+                <ul class="space-y-3">
+                    <li class="flex items-center text-secondary font-medium"><i class="fa-solid fa-arrow-right text-primary mr-3"></i> Diagnóstico de mídia paga</li>
+                    <li class="flex items-center text-secondary font-medium"><i class="fa-solid fa-arrow-right text-primary mr-3"></i> Diagnóstico orgânico (redes sociais)</li>
+                    <li class="flex items-center text-secondary font-medium"><i class="fa-solid fa-arrow-right text-primary mr-3"></i> Diagnóstico de criativos</li>
+                    <li class="flex items-center text-secondary font-medium"><i class="fa-solid fa-arrow-right text-primary mr-3"></i> Diagnóstico de maturidade digital</li>
+                    <li class="flex items-center text-secondary font-medium"><i class="fa-solid fa-arrow-right text-primary mr-3"></i> Diagnóstico de CRO (site/LP)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- PENDÊNCIAS (Empty as per prompt, just a small marker if needed, hiding for clean UI unless content exists) -->
+    <section class="hidden">
+        <h2>Pendências</h2>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-v4red py-12 text-center text-white relative">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center">
+            <p class="text-sm font-bold uppercase tracking-widest mb-4 opacity-80">Produzido por:</p>
+            <img src="https://imgur.com/SU08Zb0.png" alt="V4 Company" class="h-12 object-contain hover:scale-110 transition duration-300">
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center cursor-pointer" onclick="closeLightbox()">
+        <span class="absolute top-6 right-6 text-white text-4xl hover:text-primary transition">&times;</span>
+        <img id="lightbox-img" src="" alt="Imagem Ampliada" class="max-w-[90%] max-h-[90vh] object-contain shadow-2xl rounded-lg transform scale-95 transition-transform duration-300">
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // 1. Scroll Sticky Header & Glassmorphism
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('glass-header');
+                header.classList.add('py-2');
+                header.classList.remove('py-4');
+            } else {
+                header.classList.remove('glass-header');
+                header.classList.add('py-4');
+                header.classList.remove('py-2');
+            }
+        });
+
+        // 2. Scroll Reveal Animation using Intersection Observer
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+        
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Reveal only once
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.15, // Trigger when 15% visible
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 3. Lightbox Functions
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(imgSrc) {
+            lightboxImg.src = imgSrc;
+            lightbox.classList.add('active');
+            setTimeout(() => {
+                lightboxImg.classList.remove('scale-95');
+                lightboxImg.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeLightbox() {
+            lightboxImg.classList.remove('scale-100');
+            lightboxImg.classList.add('scale-95');
+            setTimeout(() => {
+                lightbox.classList.remove('active');
+                lightboxImg.src = '';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Close lightbox on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+
+        // 4. Line Clamp Toggle (Read More)
+        function toggleLineClamp(elementId, btn) {
+            const el = document.getElementById(elementId);
+            if (el.classList.contains('line-clamp-3')) {
+                el.classList.remove('line-clamp-3');
+                btn.innerHTML = 'Ver menos <i class="fa-solid fa-chevron-up"></i>';
+            } else {
+                el.classList.add('line-clamp-3');
+                btn.innerHTML = 'Ver mais <i class="fa-solid fa-chevron-down"></i>';
+            }
+        }
+    </script>
+</body>
+</html>
